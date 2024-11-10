@@ -1,0 +1,188 @@
+local ToolNameToDestroy = "Normal Punch"
+
+game.Players.LocalPlayer.Backpack[ToolNameToDestroy]:Destroy()
+
+local ToolNameToDestroy = "Shove"
+
+game.Players.LocalPlayer.Backpack[ToolNameToDestroy]:Destroy()
+
+local ToolNameToDestroy = "Uppercut"
+
+game.Players.LocalPlayer.Backpack[ToolNameToDestroy]:Destroy()
+
+local ToolNameToDestroy = "Consecutive Punches"
+
+game.Players.LocalPlayer.Backpack[ToolNameToDestroy]:Destroy()
+
+local ToolName = "Dummy Counter" --[    put your tools name here    ]
+local CooldownLength = 40 --[    put your desired cooldown length    ]
+local ToolSlot = "1" --[    make 2 say the hotbar slot of your tool    ]
+
+local function ToolCode()local animationId = "18440389930"
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://" .. animationId
+local animationTrack = humanoid:LoadAnimation(animation)
+
+animationTrack:play()
+
+
+local r = game:GetService("RunService")
+local t = game:GetService("TweenService")
+local c = workspace.CurrentCamera
+local h = game.Players.LocalPlayer.Character
+
+local function s(d)
+    if not d then return end
+
+    local o = c.CFrame
+    local e = 0
+    local con
+
+    h.Humanoid.AutoRotate = false
+    c.CameraType = Enum.CameraType.Scriptable
+
+    con = r.RenderStepped:Connect(function(dt)
+        e = e + dt * 60
+        local k = d[math.ceil(e)]
+
+        if k then
+            t:Create(c, TweenInfo.new(0.0005, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
+                CFrame = h.HumanoidRootPart.CFrame * k.cframe,
+                FieldOfView = k.fov
+            }):Play()
+        else
+            con:Disconnect()
+            c.FieldOfView = 70
+            h.Humanoid.AutoRotate = true
+            c.CameraType = Enum.CameraType.Custom
+            c.CFrame = o
+        end
+    end)
+end
+
+local m = require(game.ReplicatedStorage.Cutscenes["Special"])
+
+local d = m
+if d then
+    s(d)
+end
+
+
+local Sound = "18440861190"
+local Volume = 1
+local Speed = 1
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed --[    put your tools code inside the function     ]
+    
+    delay(0, function() --[script tip: use delay functions like this instead of wait functions for your script to be smoother]
+        
+    end)
+    
+end
+
+local player = game.Players.LocalPlayer
+local tool = Instance.new("Tool")
+tool.Name = ToolName
+tool.RequiresHandle = false
+tool.Parent = player.Backpack
+
+local debounce = false
+
+
+
+tool.Equipped:Connect(function()
+    if not debounce then
+        debounce = true
+
+        local players = game:GetService("Players")
+        local player = players.LocalPlayer
+        local character = player.Character
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid:UnequipTools()
+        end
+
+        delay(CooldownLength, function()
+            debounce = false
+        end)
+
+        local hotbar = player.PlayerGui.Hotbar.Backpack.Hotbar[ToolSlot]
+        local cooldown = player.PlayerGui.Hotbar.Backpack.LocalScript.Cooldown:Clone()
+
+        cooldown.Parent = hotbar
+
+        local tweenService = game:GetService("TweenService")
+        local tweenInfo = TweenInfo.new(CooldownLength, Enum.EasingStyle.Linear)
+        local tweenGoal = {Size = UDim2.new(cooldown.Size.X.Scale, cooldown.Size.X.Offset, 0, 0)}
+
+        local tween = tweenService:Create(cooldown, tweenInfo, tweenGoal)
+        tween:Play()
+
+        tween.Completed:Connect(function()
+            cooldown:Destroy()
+        end)
+        delay(0, function()
+            ToolCode()
+        end)
+        
+        local Animation = 18717298618
+
+-- dont change anything here
+local player = game.Players.LocalPlayer local character = player.Character or player.CharacterAdded:Wait() local function isLookingAt(target, distance) local head = character:WaitForChild("Head") local direction = (target.Position - head.Position).unit local lookVector = head.CFrame.LookVector local dotThreshold = 0 if distance <= 2.5 then dotThreshold = 0 elseif distance <= 4.1 then dotThreshold = 0.6 end return direction:Dot(lookVector) > dotThreshold end for _, m in pairs(workspace.Live:GetChildren()) do if m:IsA("Model") and m:FindFirstChild("Humanoid") then local distance = (m.HumanoidRootPart.Position - character.HumanoidRootPart.Position).Magnitude if distance <= 6 and isLookingAt(m.HumanoidRootPart, distance) then local origin = character.Head.Position local direction = (m.HumanoidRootPart.Position - origin) local raycastParams = RaycastParams.new() raycastParams.FilterDescendantsInstances = {character} local result = workspace:Raycast(origin, direction, raycastParams) if result and result.Instance == m.HumanoidRootPart then local a = Instance.new("Animation") a.AnimationId = "rbxassetid://" .. Animation local e = m.Humanoid:LoadAnimation(a) e:Play() end end end end
+        
+    end
+end) 
+
+local tool = Instance.new("Tool")
+tool.Name = "Kamehameha"
+tool.RequiresHandle = false
+tool.CanBeDropped = false
+tool.ToolTip = "A move from Weakest Dummy."
+
+local function activateTool()
+    loadstring(game:HttpGet("https://pastebin.com/raw/0UCkVb2i"))()
+end
+
+local equippedConnection
+equippedConnection = tool.Equipped:Connect(function()
+    activateTool()
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+local UltBarName = "THE STRONGEST DUMMY"
+
+-- don't chabge anything here
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local function findGuiAndSetText()
+    local screenGui = playerGui:FindFirstChild("ScreenGui")
+    if screenGui then
+        local magicHealthFrame = screenGui:FindFirstChild("MagicHealth")
+        if magicHealthFrame then
+            local textLabel = magicHealthFrame:FindFirstChild("TextLabel")
+            if textLabel then
+                textLabel.Text = UltBarName
+            end
+        end
+    end
+end
+
+playerGui.DescendantAdded:Connect(function(descendant)
+    if descendant:IsDescendantOf(playerGui:FindFirstChild("ScreenGui")) then
+        findGuiAndSetText()
+    end
+end)
+
+findGuiAndSetText()
